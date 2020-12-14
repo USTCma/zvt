@@ -39,6 +39,11 @@ class TechnicalFactor(Factor, metaclass=FactorMeta):
                  adjust_type: Union[AdjustType, str] = None) -> None:
         if columns is None:
             columns = ['id', 'entity_id', 'timestamp', 'level', 'open', 'close', 'high', 'low']
+
+        # 股票默认使用后复权
+        if entity_schema == Stock and not adjust_type:
+            adjust_type = AdjustType.hfq
+
         self.adjust_type = adjust_type
         self.data_schema = get_kdata_schema(entity_schema.__name__, level=level, adjust_type=adjust_type)
 

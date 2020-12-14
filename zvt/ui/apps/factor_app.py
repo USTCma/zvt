@@ -21,18 +21,6 @@ def factor_layout():
                     html.Div(
                         className="bg-white user-control",
                         children=[
-                            # select factor
-                            html.Div(
-                                className="padding-top-bot",
-                                children=[
-                                    html.H6("select factor:"),
-                                    dcc.Dropdown(id='factor-selector',
-                                                 placeholder='select factor',
-                                                 options=[{'label': name, 'value': name} for name in
-                                                          zvt_context.factor_cls_registry.keys()],
-                                                 value='ZenFactor')
-                                ]
-                            ),
                             # select entity_type
                             html.Div(
                                 className="padding-top-bot",
@@ -68,6 +56,18 @@ def factor_layout():
                                         multi=True
                                     )
                                 ],
+                            ),
+                            # select factor
+                            html.Div(
+                                className="padding-top-bot",
+                                children=[
+                                    html.H6("select factor:"),
+                                    dcc.Dropdown(id='factor-selector',
+                                                 placeholder='select factor',
+                                                 options=[{'label': name, 'value': name} for name in
+                                                          zvt_context.factor_cls_registry.keys()],
+                                                 value='ZenFactor')
+                                ]
                             )
                         ])
                 ]),

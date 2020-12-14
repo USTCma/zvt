@@ -10,6 +10,7 @@ from plotly.subplots import make_subplots
 from zvt.contract.api import decode_entity_id
 from zvt.contract.data_type import Bean
 from zvt.contract.normal_data import NormalData
+from zvt.domain import Stock1dHfqKdata, FinanceFactor
 from zvt.utils.pd_utils import pd_is_not_null
 
 logger = logging.getLogger(__name__)
@@ -496,10 +497,14 @@ def annotations(annotation_df: pd.DataFrame, yref='y'):
 
 
 if __name__ == '__main__':
-    from zvt.factors.pattern.pattern import ZenFactor
+    # from zvt.factors.pattern import ZenFactor
+    #
+    # data_reader1 = ZenFactor(codes=['000338'], level='1d')
+    # data_reader2 = ZenFactor(codes=['000338'], level='1wk')
+    # print(data_reader2.data_df)
+    #
+    # stacked = StackedDrawer(data_reader1.drawer(), data_reader2.drawer()).draw_kline()
+    df = Stock1dHfqKdata.query_data(code='000338',start_timestamp='2015-01-01')
+    sub_df = FinanceFactor.query_data(code='000338',start_timestamp='2015-01-01',columns=[FinanceFactor.roe,FinanceFactor.entity_id,FinanceFactor.timestamp])
 
-    data_reader1 = ZenFactor(codes=['000338'], level='1d')
-    data_reader2 = ZenFactor(codes=['000338'], level='1wk')
-    print(data_reader2.data_df)
-
-    stacked = StackedDrawer(data_reader1.drawer(), data_reader2.drawer()).draw_kline()
+    Drawer(main_df=df,sub_df_list=[sub_df]).draw_kline(show=True)
